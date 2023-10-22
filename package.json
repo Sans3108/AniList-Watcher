@@ -1,0 +1,23 @@
+{
+  "name": "anisearch-for-anilist",
+  "version": "1.0.0",
+  "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
+  "scripts": {
+    "watch": "nodemon --config config/nodemon.json",
+    "build": "node build.js"
+  },
+  "keywords": [],
+  "author": "sans._.",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "@types/jquery": "^3.5.24",
+    "@types/jqueryui": "^1.12.19",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.10",
+    "typescript": "^5.2.2"
+  }
+}

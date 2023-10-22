@@ -1,0 +1,15 @@
+{
+  "name": "AniSearch for AniList",
+  "description": "Adds a button on AniList anime pages that searches the anime on different anime websites.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "scripts/service-worker.js"
+  },
+  "permissions": ["scripting", "tabs", "storage"],
+  "host_permissions": ["https://anilist.co/*"],
+  "icons": {
+    "256": "assets/icon256.png"
+  },
+  "options_page": "pages/options.html"
+}

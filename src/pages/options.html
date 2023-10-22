@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AniSearch for AniList Options</title>
+    <link rel="stylesheet" type="text/css" href="options.css" />
+    <link rel="stylesheet" href="../lib/jquery-ui-1.13.2/jquery-ui.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Options</h1>
+
+      <label for="endpoint">Endpoint:</label>
+      <input type="text" id="endpoint" name="endpoint" />
+
+      <br /><br />
+
+      <label>Title Preference Order:</label>
+      <ul id="sortable">
+        <li class="ui-state-default" id="native">Native</li>
+        <li class="ui-state-default" id="romaji">Romaji</li>
+        <li class="ui-state-default" id="english">English</li>
+      </ul>
+
+      <br /><br />
+
+      <button id="save">Save</button>
+    </div>
+
+    <script src="../lib/jquery-ui-1.13.2/external/jquery/jquery-3.7.1.min.js"></script>
+    <script src="../lib/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    <script src="./options.js"></script>
+  </body>
+</html>
