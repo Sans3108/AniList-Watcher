@@ -1,0 +1,38 @@
+#aw_button {
+  display: inline-block;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  background: #212121 url('https://s2.bunnycdn.ru/assets/sites/aniwave/logo3.png') no-repeat center / contain;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: solid 3px #5a2e98;
+  animation: ripple-fade 1s infinite alternate;
+}
+
+@keyframes ripple-fade {
+  from,
+  to {
+    box-shadow: 0px 0px 0px #5a2e98;
+  }
+  50% {
+    box-shadow: 0px 0px 20px #5a2e98;
+  }
+}
+
+#aw_button:hover {
+  border-color: #3db4f2;
+  animation-name: ripple-fade-hover;
+}
+
+@keyframes ripple-fade-hover {
+  from,
+  to {
+    box-shadow: 0px 0px 0px #3db4f2;
+  }
+  50% {
+    box-shadow: 0px 0px 20px #3db4f2;
+  }
+}

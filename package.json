@@ -1,5 +1,5 @@
 {
-  "name": "anisearch-for-anilist",
+  "name": "anilist-to-aniwave",
   "version": "1.0.0",
   "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
   "scripts": {

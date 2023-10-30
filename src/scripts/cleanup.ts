@@ -1,7 +1,7 @@
 (async () => {
   console.log(`Cleaning up ${document.URL}`);
 
-  const existingAwButton = document.getElementById('as_button');
+  const existingAwButton = document.getElementById('aw_button');
 
   if (existingAwButton) {
     console.log('Removing old button...');

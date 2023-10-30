@@ -8,7 +8,7 @@
   //#endregion
 
   //#region Constants
-  const asButtonId = 'as_button';
+  const awButtonId = 'aw_button';
   //#endregion
 
   const url = 'https://graphql.anilist.co';
@@ -21,9 +21,16 @@ query ($id: Int) {
       english
       native
     }
+    season,
+    seasonYear,
+    format
   }
 }
 `;
+
+  type Season = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL';
+
+  type Format = 'TV' | 'TV_SHORT' | 'MOVIE' | 'SPECIAL' | 'OVA' | 'ONA' | 'MUSIC' | 'MANGA' | 'NOVEL' | 'ONE_SHOT';
 
   type Anime = {
     id: number;
@@ -32,6 +39,9 @@ query ($id: Int) {
       english: string | null;
       native: string | null;
     };
+    season: Season | null;
+    seasonYear: number | null;
+    format: Format | null;
   };
 
   const variables = { id: document.URL.split('/')[4] };
@@ -48,13 +58,13 @@ query ($id: Int) {
     return null;
   });
 
-  if (!data) return;
+  if (!data) return console.error(`API ERROR!`);
 
   const anime: Anime = (await data.json()).data.Media;
 
   // Get the title in order of preference
 
-  const order = (await chrome.storage.local.get('as_titleOrder')).as_titleOrder as string[];
+  const order = ['native', 'romaji', 'english'];
   const titles = [
     { lang: 'native', title: anime.title.native },
     { lang: 'romaji', title: anime.title.romaji },
@@ -73,26 +83,39 @@ query ($id: Int) {
 
   console.log('Constructing button...');
 
-  const asButton = document.createElement('div');
-  
-  asButton.innerText = `AniSearch`;
-  asButton.id = asButtonId;
+  const awButton = document.createElement('div');
+
+  awButton.id = awButtonId;
 
   // Redirect
-  const endpoint = (await chrome.storage.local.get('as_endpoint')).as_endpoint as string;
+  const endpoint = new URL('https://aniwave.to/filter');
 
-  const asSearchUrl = endpoint.replace(/%s/g, encodeURIComponent(title));
+  endpoint.searchParams.set('keyword', title);
+  endpoint.searchParams.set('sort', 'most_relevance');
 
-  asButton.onclick = function () {
-    window.open(asSearchUrl, '_blank');
+  const year = anime.seasonYear;
+  if (year) endpoint.searchParams.set('year', `${year}`);
+
+  if (anime.format) {
+    const valid = ['movie', 'tv', 'ova', 'ona', 'special', 'music'].includes(anime.format.toLowerCase());
+
+    if (valid) endpoint.searchParams.set('type', anime.format.toLowerCase());
+  }
+
+  if (anime.season) {
+    endpoint.searchParams.set('season', anime.season.toLowerCase());
+  }
+
+  awButton.onclick = function () {
+    window.open(endpoint, '_blank');
   };
 
   // Append the button to the action panel
   const actionPanel = getElementByPath(`#app > div.page-content > div > div.header-wrap > div > div > div.cover-wrap > div > div`);
   if (!actionPanel) throw new Error('Action Panel was not found!');
 
-  actionPanel.appendChild(asButton);
+  actionPanel.appendChild(awButton);
+  console.log('Button was appended to the action panel!');
 })().catch((e: Error) => {
   console.error(e);
-  alert(e.message + '\nTry refreshing the page...');
 });

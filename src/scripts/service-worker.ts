@@ -1,9 +1,4 @@
 chrome.runtime.onInstalled.addListener(async () => {
-  await chrome.storage.local.set({
-    as_endpoint: 'https://aniwave.to/filter?keyword=%s',
-    as_titleOrder: ['native', 'romaji', 'english']
-  });
-
   console.log('Installed!');
 });
 
@@ -11,7 +6,11 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete') {
     if (!tab.url) return console.log(`No URL was found for tab ${tabId}`);
 
-    const domain = tab.url.split('/')[2];
+    const url = tab.url.split('/');
+
+    console.log(`Processing ${url.join('/')}`);
+
+    const domain = url[2];
     if (domain !== 'anilist.co') return;
 
     await chrome.scripting
@@ -29,7 +28,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     await chrome.scripting
       .removeCSS({
         target: { tabId: tabId },
-        files: ['assets/as_button.css']
+        files: ['assets/aw_button.css']
       })
       .then(() => {
         console.log(`Button CSS removed successfully for ${tab.url}`);
@@ -38,13 +37,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         console.warn(`An error ocurred but it was caught.\n\n${err}`);
       });
 
-    const page = tab.url.split('/')[3];
+    const page = url[3];
 
-    if (page === 'anime') {
+    if (page === 'anime' && url[4] && url[5]) {
       await chrome.scripting
         .insertCSS({
           target: { tabId: tabId },
-          files: ['assets/as_button.css']
+          files: ['assets/aw_button.css']
         })
         .then(() => {
           console.log(`Button CSS injected successfully for ${tab.url}`);
