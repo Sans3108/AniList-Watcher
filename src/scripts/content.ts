@@ -83,9 +83,15 @@ query ($id: Int) {
 
   console.log('Constructing button...');
 
-  const awButton = document.createElement('div');
+  const awButton = document.createElement('a');
 
   awButton.id = awButtonId;
+
+  awButton.setAttribute('data-v-5776f768', '');
+
+  awButton.className = 'link';
+
+  awButton.innerText = ' AniWave ';
 
   // Redirect
   const endpoint = new URL('https://aniwave.to/filter');
@@ -106,12 +112,11 @@ query ($id: Int) {
     endpoint.searchParams.set('season', anime.season.toLowerCase());
   }
 
-  awButton.onclick = function () {
-    window.open(endpoint, '_blank');
-  };
+  awButton.setAttribute('href', endpoint.toString());
+  awButton.setAttribute('target', '_blank');
 
   // Append the button to the action panel
-  const actionPanel = getElementByPath(`#app > div.page-content > div > div.header-wrap > div > div > div.cover-wrap > div > div`);
+  const actionPanel = getElementByPath(`#app > div.page-content > div > div.header-wrap > div.header > div > div.content > div`);
   if (!actionPanel) throw new Error('Action Panel was not found!');
 
   actionPanel.appendChild(awButton);
