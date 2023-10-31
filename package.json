@@ -1,6 +1,6 @@
 {
   "name": "anilist-to-aniwave",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
   "scripts": {
     "watch": "nodemon --config config/nodemon.json",

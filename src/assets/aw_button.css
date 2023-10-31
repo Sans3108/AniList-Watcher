@@ -1,3 +1,7 @@
-#aw_button:hover {
+#aw_button {
   color: #8954d4;
+}
+
+#aw_button:hover {
+  text-decoration-line: underline;
 }

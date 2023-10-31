@@ -66,3 +66,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     }
   }
 });
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.contentScriptQuery == 'fetchUrl') {
+    fetch(request.url)
+      .then(response => response.text())
+      .then(text => sendResponse({ text: text }))
+      .catch(error => console.log(error));
+    return true;
+  }
+});

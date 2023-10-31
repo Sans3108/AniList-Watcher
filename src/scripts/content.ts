@@ -112,8 +112,45 @@ query ($id: Int) {
     endpoint.searchParams.set('season', anime.season.toLowerCase());
   }
 
-  awButton.setAttribute('href', endpoint.toString());
   awButton.setAttribute('target', '_blank');
+
+  // Trying to guess the direct anime url
+
+  chrome.runtime.sendMessage({ contentScriptQuery: 'fetchUrl', url: endpoint.toString() }, r => {
+    const html = r.text as string | void;
+
+    if (!html) {
+      awButton.setAttribute('href', endpoint.toString());
+      return console.log('Could not fetch, falling back to search url.');
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    const results = doc.querySelector('#list-items div');
+
+    if (!results) {
+      awButton.setAttribute('href', endpoint.toString());
+      return console.log('No results were found, falling back to search url.');
+    }
+
+    const firstResult = doc.querySelector('#list-items div div div a');
+
+    if (!firstResult) {
+      awButton.setAttribute('href', endpoint.toString());
+      return console.log('Unable to parse, falling back to search url.');
+    }
+
+    const direct = firstResult.getAttribute('href');
+
+    if (!direct) {
+      awButton.setAttribute('href', endpoint.toString());
+      return console.log('Unable to find direct link, falling back to search url.');
+    }
+
+    console.log(`Found direct link ${direct}`);
+    awButton.setAttribute('href', `https://aniwave.to${direct}`);
+  });
 
   // Append the button to the action panel
   const actionPanel = getElementByPath(`#app > div.page-content > div > div.header-wrap > div.header > div > div.content > div`);

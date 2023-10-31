@@ -1,13 +1,13 @@
 {
   "name": "AniList to AniWave",
   "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "scripts/service-worker.js"
   },
   "permissions": ["scripting", "tabs"],
-  "host_permissions": ["https://anilist.co/*"],
+  "host_permissions": ["https://anilist.co/*", "https://aniwave.to/*"],
   "icons": {
     "256": "assets/icon256.png"
   }
