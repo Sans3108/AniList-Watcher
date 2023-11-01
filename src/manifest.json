@@ -9,7 +9,7 @@
   "permissions": ["scripting", "tabs", "storage"],
   "host_permissions": ["https://anilist.co/*", "https://aniwave.to/*"],
   "icons": {
-    "256": "assets/icon256.png"
+    "128": "assets/icon128.png"
   },
   "options_page": "views/options.html"
 }
