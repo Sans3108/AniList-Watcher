@@ -1,4 +1,6 @@
 chrome.runtime.onInstalled.addListener(async () => {
+  await chrome.storage.sync.set({ directWatchPageLink: true });
+
   console.log('Installed!');
 });
 
