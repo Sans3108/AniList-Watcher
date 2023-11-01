@@ -11,6 +11,5 @@
   "icons": {
     "256": "assets/icon256.png"
   },
-  "update_url": "https://raw.githubusercontent.com/Sans3108/AniList-To-AniWave-Updates/master/update.xml",
   "options_page": "views/options.html"
 }
