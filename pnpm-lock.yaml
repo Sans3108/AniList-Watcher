@@ -19,12 +19,6 @@ devDependencies:
   '@types/chrome':
     specifier: ^0.0.246
     version: 0.0.246
-  '@types/jquery':
-    specifier: ^3.5.24
-    version: 3.5.24
-  '@types/jqueryui':
-    specifier: ^1.12.19
-    version: 1.12.19
   nodemon:
     specifier: ^3.0.1
     version: 3.0.1
@@ -53,38 +47,22 @@ packages:
   /@types/chrome@0.0.246:
     resolution: {integrity: sha512-MxGxEomGxsJiL9xe/7ZwVgwdn8XVKWbPvxpVQl3nWOjrS0Ce63JsfzxUc4aU3GvRcUPYsfufHmJ17BFyKxeA4g==}
     dependencies:
-      '@types/filesystem': 0.0.33
-      '@types/har-format': 1.2.13
+      '@types/filesystem': 0.0.34
+      '@types/har-format': 1.2.14
     dev: true
 
-  /@types/filesystem@0.0.33:
-    resolution: {integrity: sha512-2KedRPzwu2K528vFkoXnnWdsG0MtUwPjuA7pRy4vKxlxHEe8qUDZibYHXJKZZr2Cl/ELdCWYqyb/MKwsUuzBWw==}
+  /@types/filesystem@0.0.34:
+    resolution: {integrity: sha512-La4bGrgck8/rosDUA1DJJP8hrFcKq0BV6JaaVlNnOo1rJdJDcft3//slEbAmsWNUJwXRCc0DXpeO40yuATlexw==}
     dependencies:
-      '@types/filewriter': 0.0.30
+      '@types/filewriter': 0.0.31
     dev: true
 
-  /@types/filewriter@0.0.30:
-    resolution: {integrity: sha512-lB98tui0uxc7erbj0serZfJlHKLNJHwBltPnbmO1WRpL5T325GOHRiQfr2E29V2q+S1brDO63Fpdt6vb3bES9Q==}
+  /@types/filewriter@0.0.31:
+    resolution: {integrity: sha512-12df1utOvPC80+UaVoOO1d81X8pa5MefHNS+gWX9R2ucSESpMz9K5QwlTWDGKASrzCpSFwj7NPYh+nTsolgEGA==}
     dev: true
 
-  /@types/har-format@1.2.13:
-    resolution: {integrity: sha512-PwBsCBD3lDODn4xpje3Y1di0aDJp4Ww7aSfMRVw6ysnxD4I7Wmq2mBkSKaDtN403hqH5sp6c9xQUvFYY3+lkBg==}
-    dev: true
-
-  /@types/jquery@3.5.24:
-    resolution: {integrity: sha512-V/TG69ge5amcr8Ap7vY3SObqKfZlV7ttqcYnNcYnndI77ySIRi05+3GjvfwRtE2qalAC2ySLIL1ker512sI20g==}
-    dependencies:
-      '@types/sizzle': 2.3.5
-    dev: true
-
-  /@types/jqueryui@1.12.19:
-    resolution: {integrity: sha512-pbjCT91/GB3kbJ9R2VeCfgTgHnqCrDG7FhLC7jeRnOsUJBxBX4VzTYPwF/qdRDxt7AHwaCzeuIM7IEPdYpfNvg==}
-    dependencies:
-      '@types/jquery': 3.5.24
-    dev: true
-
-  /@types/sizzle@2.3.5:
-    resolution: {integrity: sha512-tAe4Q+OLFOA/AMD+0lq8ovp8t3ysxAOeaScnfNdZpUxaGl51ZMDEITxkvFl1STudQ58mz6gzVGl9VhMKhwRnZQ==}
+  /@types/har-format@1.2.14:
+    resolution: {integrity: sha512-pEmBAoccWvO6XbSI8A7KvIDGEoKtlLWtdqVCKoVBcCDSFvR4Ijd7zGLu7MWGEqk2r8D54uWlMRt+VZuSrfFMzQ==}
     dev: true
 
   /abbrev@1.1.1:
