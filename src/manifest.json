@@ -1,7 +1,7 @@
 {
   "name": "AniList to AniWave",
   "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "scripts/service-worker.js"
