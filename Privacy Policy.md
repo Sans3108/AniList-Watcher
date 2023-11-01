@@ -1,4 +1,4 @@
-# Privacy Policy for [Your Extension Name]
+# Privacy Policy for AniList to AniWave
 
 ## Introduction
 
