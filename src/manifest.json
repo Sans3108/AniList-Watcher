@@ -1,7 +1,7 @@
 {
   "name": "AniList to AniWave",
   "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "scripts/service-worker.js"
@@ -11,6 +11,6 @@
   "icons": {
     "256": "assets/icon256.png"
   },
-  "update_url": "https://github.com/Sans3108/AniList-To-AniWave/releases/latest/download/update.xml",
+  "update_url": "https://raw.githubusercontent.com/Sans3108/AniList-To-AniWave-Updates/master/update.xml",
   "options_page": "views/options.html"
 }
