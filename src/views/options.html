@@ -3,11 +3,11 @@
   <head>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #363636;
-        color: #fff
+        color: #fff;
       }
       .container {
         width: 80%;
@@ -22,14 +22,17 @@
       }
       .option-item label {
         font-weight: bold;
+        font-size: larger;
       }
     </style>
+    <link rel="stylesheet" href="../styles/checkbox.css" />
   </head>
   <body>
     <div class="container">
       <div class="option-item">
-        <label for="directWatchPageLink">Try to find the direct watch page link</label>
-        <input type="checkbox" id="directWatchPageLink" name="directWatchPageLink" />
+        <label for="directWatchPageLink">Try to find the direct watch page link (Experimental)</label>
+        <br /><br />
+        <input type="checkbox" class="cb" id="directWatchPageLink" name="directWatchPageLink" />
       </div>
     </div>
 

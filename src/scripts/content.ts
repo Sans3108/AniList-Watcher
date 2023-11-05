@@ -23,7 +23,9 @@ query ($id: Int) {
     }
     season,
     seasonYear,
-    format
+    format,
+    genres,
+    status
   }
 }
 `;
@@ -31,6 +33,28 @@ query ($id: Int) {
   type Season = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL';
 
   type Format = 'TV' | 'TV_SHORT' | 'MOVIE' | 'SPECIAL' | 'OVA' | 'ONA' | 'MUSIC' | 'MANGA' | 'NOVEL' | 'ONE_SHOT';
+
+  type Genre =
+    | 'Action'
+    | 'Adventure'
+    | 'Comedy'
+    | 'Drama'
+    | 'Ecchi'
+    | 'Fantasy'
+    | 'Horror'
+    | 'Mahou Shoujo'
+    | 'Mecha'
+    | 'Music'
+    | 'Mystery'
+    | 'Psychological'
+    | 'Romance'
+    | 'Sci-Fi'
+    | 'Slice of Life'
+    | 'Sports'
+    | 'Supernatural'
+    | 'Thriller';
+
+  type Status = 'FINISHED' | 'RELEASING' | 'NOT_YET_RELEASED' | 'CANCELLED' | 'HIATUS';
 
   type Anime = {
     id: number;
@@ -42,6 +66,8 @@ query ($id: Int) {
     season: Season | null;
     seasonYear: number | null;
     format: Format | null;
+    genres: Genre[] | null;
+    status: Status | null;
   };
 
   const variables = { id: document.URL.split('/')[4] };
@@ -102,6 +128,16 @@ query ($id: Int) {
   const year = anime.seasonYear;
   if (year) endpoint.searchParams.set('year', `${year}`);
 
+  if (anime.status) {
+    const valid = ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED'].includes(anime.status);
+
+    if (valid) {
+      const status = anime.status === 'FINISHED' ? 'completed' : anime.status === 'NOT_YET_RELEASED' ? 'info' : 'releasing';
+
+      endpoint.searchParams.append('status[]', status);
+    }
+  }
+
   if (anime.format) {
     const valid = ['movie', 'tv', 'ova', 'ona', 'special', 'music'].includes(anime.format.toLowerCase());
 
@@ -110,6 +146,33 @@ query ($id: Int) {
 
   if (anime.season) {
     endpoint.searchParams.set('season', anime.season.toLowerCase());
+  }
+
+  if (anime.genres) {
+    const validGenres: { awId: number; name: Genre }[] = [
+      { awId: 1, name: 'Action' },
+      { awId: 2, name: 'Adventure' },
+      { awId: 4, name: 'Comedy' },
+      { awId: 7, name: 'Drama' },
+      { awId: 8, name: 'Ecchi' },
+      { awId: 9, name: 'Fantasy' },
+      { awId: 14, name: 'Horror' },
+      { awId: 3457321, name: 'Mahou Shoujo' },
+      { awId: 19, name: 'Mecha' },
+      { awId: 21, name: 'Music' },
+      { awId: 22, name: 'Mystery' },
+      { awId: 25, name: 'Psychological' },
+      { awId: 26, name: 'Romance' },
+      { awId: 29, name: 'Sci-Fi' },
+      { awId: 35, name: 'Slice of Life' },
+      { awId: 37, name: 'Sports' },
+      { awId: 39, name: 'Supernatural' },
+      { awId: 40, name: 'Thriller' }
+    ];
+
+    const animeGenres = validGenres.filter(genre => anime.genres!.includes(genre.name));
+
+    animeGenres.forEach(genre => endpoint.searchParams.append('genre[]', `${genre.awId}`));
   }
 
   awButton.setAttribute('target', '_blank');
