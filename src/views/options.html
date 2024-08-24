@@ -22,7 +22,13 @@
       }
       .option-item label {
         font-weight: bold;
-        font-size: larger;
+        font-size: x-large;
+      }
+      .option-item p {
+        font-size: medium;
+      }
+      .cb {
+        transform: scale(1.2);
       }
     </style>
     <link rel="stylesheet" href="../styles/checkbox.css" />
@@ -30,9 +36,14 @@
   <body>
     <div class="container">
       <div class="option-item">
-        <label for="directWatchPageLink">Try to find the direct watch page link (Experimental)</label>
-        <br /><br />
+        <label for="directWatchPageLink">Find direct watch page url</label>
+        <p>The extension will try to find the direct watch page url of the anime, making the button redirect there instead of the search results page.</p>
         <input type="checkbox" class="cb" id="directWatchPageLink" name="directWatchPageLink" />
+      </div>
+      <div class="option-item">
+        <label for="useEpisodeNumber">Use episode number in direct watch page url</label><br />
+        <p>When using the direct watch page url option, the extension will also include the episode number in the url based on the AniList data.</p>
+        <input type="checkbox" class="cb" id="useEpisodeNumber" name="useEpisodeNumber" />
       </div>
     </div>
 

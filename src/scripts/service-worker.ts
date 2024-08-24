@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(async () => {
-  await chrome.storage.sync.set({ directWatchPageLink: true });
+  await chrome.storage.sync.set({ directWatchPageLink: true, useEpisodeNumber: false, buttonMovedNotif: false });
 
   console.log('Installed!');
 });
@@ -76,5 +76,24 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       .then(text => sendResponse({ text: text }))
       .catch(error => console.log(error));
     return true;
+  }
+});
+
+chrome.storage.sync.get('buttonMovedNotif').then((buttonMovedNotif: { buttonMovedNotif?: boolean }) => {
+  console.log(buttonMovedNotif);
+
+  const hasSeen = Boolean(buttonMovedNotif);
+
+  console.log(`Has seen: ${hasSeen}`);
+  if (!Boolean(buttonMovedNotif)) {
+    chrome.notifications.create('NOTFICATION_ID', {
+      type: 'basic',
+      iconUrl: 'path',
+      title: 'notification title',
+      message: 'notification message',
+      priority: 2
+    });
+
+    // chrome.storage.sync.set({ buttonMovedNotif: true }).then(() => console.log('Notification sent'));
   }
 });

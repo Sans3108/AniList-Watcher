@@ -1,10 +1,15 @@
 document.addEventListener('DOMContentLoaded', async function (): Promise<void> {
-  const checkbox: HTMLInputElement = document.getElementById('directWatchPageLink') as HTMLInputElement;
+  const directWatchPageCheckbox: HTMLInputElement = document.getElementById('directWatchPageLink') as HTMLInputElement;
+  const episodeNumberCheckbox: HTMLInputElement = document.getElementById('useEpisodeNumber') as HTMLInputElement;
 
-  const data: { directWatchPageLink?: boolean } = await chrome.storage.sync.get('directWatchPageLink');
-  checkbox.checked = Boolean(data.directWatchPageLink);
+  const data: { directWatchPageLink?: boolean; useEpisodeNumber?: boolean } = await chrome.storage.sync.get(['directWatchPageLink', 'useEpisodeNumber']);
+  directWatchPageCheckbox.checked = Boolean(data.directWatchPageLink);
+  episodeNumberCheckbox.checked = Boolean(data.useEpisodeNumber);
 
-  checkbox.addEventListener('change', function (): void {
-    chrome.storage.sync.set({ directWatchPageLink: checkbox.checked });
+  directWatchPageCheckbox.addEventListener('change', function (): void {
+    chrome.storage.sync.set({ directWatchPageLink: directWatchPageCheckbox.checked });
+  });
+  episodeNumberCheckbox.addEventListener('change', function (): void {
+    chrome.storage.sync.set({ useEpisodeNumber: episodeNumberCheckbox.checked });
   });
 });
