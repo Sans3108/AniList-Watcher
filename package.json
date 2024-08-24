@@ -1,7 +1,7 @@
 {
   "name": "anilist-to-aniwave",
-  "version": "7.0.0",
-  "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
+  "version": "8.0.0",
+  "description": "Adds a button on AniList anime and manga pages that searches the anime/manga on AniWave/MangaFire respectively.",
   "scripts": {
     "watch": "nodemon --config config/nodemon.json",
     "build": "node build.js"

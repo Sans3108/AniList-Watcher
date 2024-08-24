@@ -30,10 +30,10 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     await chrome.scripting
       .removeCSS({
         target: { tabId: tabId },
-        files: ['assets/aw_button.css']
+        files: ['assets/aw_button.css', 'assets/mf_button.css']
       })
       .then(() => {
-        console.log(`Button CSS removed successfully for ${tab.url}`);
+        console.log(`Buttons CSS removed successfully for ${tab.url}`);
       })
       .catch(err => {
         console.warn(`An error ocurred but it was caught.\n\n${err}`);
@@ -41,11 +41,11 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
     const page = url[3];
 
-    if (page === 'anime' && url[4] && url[5]) {
+    if ((page === 'anime' || page === 'manga') && url[4] && url[5]) {
       await chrome.scripting
         .insertCSS({
           target: { tabId: tabId },
-          files: ['assets/aw_button.css']
+          files: [page === 'anime' ? 'assets/aw_button.css' : 'assets/mf_button.css']
         })
         .then(() => {
           console.log(`Button CSS injected successfully for ${tab.url}`);
@@ -57,7 +57,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       await chrome.scripting
         .executeScript({
           target: { tabId: tabId },
-          files: ['scripts/content.js']
+          files: [page === 'anime' ? 'scripts/aw.js' : 'scripts/mf.js']
         })
         .then(() => {
           console.log(`Injected the content script for ${tab.url}`);

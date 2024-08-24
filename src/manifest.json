@@ -1,13 +1,13 @@
 {
-  "name": "AniList to AniWave",
-  "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
-  "version": "7.0.0",
+  "name": "AniList to AniWave (+MangaFire)",
+  "description": "Adds a button on AniList anime and manga pages that searches the anime/manga on AniWave/MangaFire respectively.",
+  "version": "8.0.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "scripts/service-worker.js"
   },
   "permissions": ["scripting", "tabs", "storage"],
-  "host_permissions": ["https://anilist.co/*", "https://aniwave.to/*"],
+  "host_permissions": ["https://anilist.co/*", "https://aniwave.to/*", "https://mangafire.to/*"],
   "icons": {
     "128": "assets/icon128.png"
   },

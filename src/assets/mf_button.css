@@ -1,0 +1,8 @@
+#mf_button {
+  color: #3c8bc6;
+  transition-duration: 150ms;
+}
+
+#mf_button:hover {
+  color: #50bdd9;
+}
