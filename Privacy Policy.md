@@ -1,14 +1,14 @@
-# Privacy Policy for AniList to AniWave
+# Privacy Policy for AniList Watcher
 
 ## Introduction
 
-I, Sans, am committed to maintaining the trust and confidence of all users of my AniList to AniWave browser extension. I want you to know that AniList to AniWave is not in the business of selling, renting or trading any personal information with other entities.
+I, Sans, am committed to maintaining the trust and confidence of all users of my AniList Watcher browser extension. I want you to know that AniList Watcher is not in the business of selling, renting or trading any personal information with other entities.
 
 In this Privacy Policy, I provide detailed information on when and why I do not collect your personal information, how it would be used if it were collected, the limited conditions under which it may be disclosed to others and how it would be kept secure.
 
 ## Information That I Collect
 
-AniList to AniWave does not collect or store any personal information.
+AniList Watcher does not collect or store any personal information.
 
 ## Use of Your Information
 
@@ -22,4 +22,4 @@ If I make a change to this policy that, in my sole discretion, is material, I wi
 
 ## Contact Me
 
-If you have any questions about this policy or about how I handle your personal information, please contact me over on the Discord platform (sans._.) or via email (sansy3108@gmail.com).
+If you have any questions about this policy or about how I handle your personal information, please contact me on Discord [`sans._.`](https://discord.com/users/366536353418182657).

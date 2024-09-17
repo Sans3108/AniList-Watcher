@@ -1,5 +1,5 @@
 {
-  "watch": ["src"],
+  "watch": ["src", "build.js"],
   "ext": "*",
-  "exec": "node build.js"
+  "exec": "cls && node --disable-warning=ExperimentalWarning build.js"
 }

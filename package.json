@@ -1,21 +1,30 @@
 {
-  "name": "anilist-to-aniwave",
-  "version": "7.0.0",
-  "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
+  "name": "anilist-watcher",
+  "version": "8.0.0",
+  "description": "Adds a button on AniList anime and manga pages to quickly open media on popular streaming and reading sites.",
   "scripts": {
     "watch": "nodemon --config config/nodemon.json",
-    "build": "node build.js"
+    "build": "node build.js --disable-warning ExperimentalWarning"
   },
   "keywords": [],
   "author": "sans._.",
   "license": "ISC",
+  "type": "module",
   "devDependencies": {
     "@types/chrome": "^0.0.246",
-    "nodemon": "^3.0.1"
+    "@types/clean-css": "^4.2.11",
+    "@types/fs-extra": "^11.0.4",
+    "@types/html-minifier-terser": "^7.0.2",
+    "@types/node": "20.14.8",
+    "nodemon": "^3.1.4"
   },
   "dependencies": {
-    "fs-extra": "^11.1.1",
-    "glob": "^10.3.10",
-    "typescript": "^5.2.2"
+    "clean-css": "^5.3.3",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.4.5",
+    "html-minifier-terser": "^7.2.0",
+    "htmlparser2": "^9.1.0",
+    "terser": "^5.32.0",
+    "typescript": "^5.6.2"
   }
 }

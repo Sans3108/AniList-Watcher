@@ -6,33 +6,123 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #363636;
+        background-color: #252525;
         color: #fff;
       }
+
       .container {
-        width: 80%;
+        width: fit-content;
+        min-width: 60%;
+        max-width: min-content;
         margin: 0 auto;
         padding: 20px;
       }
+
       .option-item {
-        background-color: #717171;
+        background-color: rgba(115, 141, 169, 0.4);
         border-radius: 5px;
         padding: 20px;
         margin-bottom: 10px;
       }
-      .option-item label {
-        font-weight: bold;
-        font-size: larger;
+
+      .highlight {
+        background-color: #505372;
+      }
+
+      a {
+        text-decoration: none;
+        color: #20b2aa;
+      }
+
+      p.header {
+        font-size: 24px;
+      }
+
+      .reset {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 18px;
+      }
+
+      .horiz {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        justify-self: center;
+        text-align: center;
+        align-items: center;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 10px;
       }
     </style>
     <link rel="stylesheet" href="../styles/checkbox.css" />
+    <link rel="stylesheet" href="../styles/select.css" />
+    <link rel="stylesheet" href="../styles/button.css" />
   </head>
   <body>
-    <div class="container">
+    <div id="container" class="container">
       <div class="option-item">
-        <label for="directWatchPageLink">Try to find the direct watch page link (Experimental)</label>
-        <br /><br />
-        <input type="checkbox" class="cb" id="directWatchPageLink" name="directWatchPageLink" />
+        <div class="horiz">
+          <img src="../assets/icon256.png" width="128" height="128" />
+        </div>
+        <h1 class="horiz">AniList Watcher</h1>
+        <p class="header horiz">Options for this extension are listed below.<br />They're automatically saved but existing tabs need to be refreshed for changes to apply.</p>
+      </div>
+
+      <div class="option-item grid">
+        <div class="option-item">
+          <h2>Try to find the direct watch page link (Experimental)</h2>
+          <p>Will try to set the button to episode/chapter 1 of the show you're looking for.</p>
+          <input type="checkbox" class="cb" id="directWatchPageLink" name="directWatchPageLink" />
+        </div>
+
+        <div class="option-item">
+          <h2>Use genres when searching</h2>
+          <p>
+            Some providers (like HiAnime and Anitaku) report mismatched genres for some titles, this option toggles wether to use genres reported by AniList when searching.<br />(Try toggling this off
+            if the extension didn't get a direct link or no search results are found on the provider's search page)
+          </p>
+          <input type="checkbox" class="cb" id="withGenres" name="withGenres" />
+        </div>
+
+        <div class="option-item">
+          <h2>Preferred providers</h2>
+          <p>Streaming:</p>
+          <select name="streamingSite" id="streamingSiteId"></select>
+          <p>Reading:</p>
+          <select name="readingSite" id="readingSiteId"></select>
+        </div>
+
+        <div class="option-item">
+          <h2>AniList title language order</h2>
+          <p>This will determine in which language order the titles from anilist are used when searching.<br />(Might help if you get no results)</p>
+          <select name="langOrder" id="langOrder">
+            <option value="nre">Native, Romaji, English</option>
+            <option value="ern">English, Romaji, Native</option>
+            <option value="ner">Native, English, Romaji</option>
+            <option value="enr">English, Native, Romaji</option>
+            <option value="rne">Romaji, Native, English</option>
+            <option value="ren">Romaji, English, Native</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="option-item horiz">
+        <h2 class="horiz reset">Reset options to default</h2>
+        <button id="resetOptions">Reset</button>
+      </div>
+
+      <div class="option-item">
+        <p class="horiz">Version 8.0.0</p>
+        <p class="horiz">If you have questions or concerns direct them to my Discord DM's: <a href="https://discord.com/users/366536353418182657" target="_blank">sans._.</a></p>
       </div>
     </div>
 

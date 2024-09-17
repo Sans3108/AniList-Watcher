@@ -1,0 +1,29 @@
+/* Style the select dropdown */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #6e79d6;
+  border: none;
+  padding: 10px;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  width: 200px;
+  outline: none;
+  cursor: pointer;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="white"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  transition: background 0.2s ease;
+}
+
+select:hover {
+  background-color: #535db3;
+}
+
+select option {
+  background-color: #fff;
+  color: #333;
+}

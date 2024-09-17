@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
+    "target": "ES2017",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "../out/js",
@@ -20,7 +20,7 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": false,
-    "lib": ["ES2016", "DOM"]
+    "lib": ["ES2017", "DOM"]
   },
   "include": ["../src/**/*.ts"],
   "exclude": ["node_modules"]

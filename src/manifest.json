@@ -1,15 +1,21 @@
 {
-  "name": "AniList to AniWave",
-  "description": "Adds a button on AniList anime pages that searches the anime on AniWave.",
-  "version": "7.0.0",
+  "name": "AniList Watcher",
+  "description": "Adds a button on AniList anime and manga pages to quickly open media on popular streaming and reading sites.",
+  "version": "8.0.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "scripts/service-worker.js"
+    "service_worker": "scripts/background/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "views/popup.html"
   },
   "permissions": ["scripting", "tabs", "storage"],
-  "host_permissions": ["https://anilist.co/*", "https://aniwave.to/*"],
+  "host_permissions": ["https://anilist.co/*", "https://api.myanimelist.net/*", "https://hianime.to/*", "https://mangafire.to/*", "https://mangareader.to/*"],
   "icons": {
-    "128": "assets/icon128.png"
+    "256": "assets/icon256.png"
   },
-  "options_page": "views/options.html"
+  "options_page": "views/options.html",
+  "incognito": "split",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjEIfilATbN4nrvzwkA3Cdm3wv5CiTGh5/sFOr2qEcdzL2tGG5wpJVOHqj/IfZ++RBMUDM2XM9zjxyNG+SQw2ND8sM+9ztzDKgS6jua85s5s9FftkbFecxXr73kqd/Iq2WWjOSHryE7yxzav4lajiG+99HF+sWEmBMiXbynUAkG4RKBEFSM3+4AxAhgjOkCQAVDLyXck54pNdnQLuEZQVhAAvzuFszYFm7ogKxUZHWHLWQutwFeMsxN/7Ilm+zI6pfC7kHTlpUcmbRLOp5FxiEqmFkewc95ZmsGGwgPPkuVsKnocMb7PYsIDdEKjNCO8mp8Jbsu7sO0MxRzZAZHANCwIDAQAB"
 }

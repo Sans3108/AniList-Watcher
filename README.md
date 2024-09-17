@@ -1,4 +1,6 @@
-Simply adds a button to anilist anime pages that searches up the anime as best as it can on aniwave.
+Simply adds a button to anilist anime & manga pages that searches up the media as best as it can on whatever site you want.
+
+Currently supports 
 
 Yes, I'm lazy, how did you know?
 

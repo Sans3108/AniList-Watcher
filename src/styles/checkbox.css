@@ -4,10 +4,10 @@
   border-radius: 72px;
   border-style: none;
   flex-shrink: 0;
-  height: 20px;
+  height: 30px;
   margin: 0;
   position: relative;
-  width: 30px;
+  width: 45px;
 }
 
 .cb::before {
@@ -28,11 +28,11 @@
   background-color: #fff;
   border-radius: 50%;
   content: '';
-  height: 14px;
-  left: 3px;
+  height: 21px;
+  left: 4.5px;
   position: absolute;
-  top: 3px;
-  width: 14px;
+  top: 4.5px;
+  width: 21px;
 }
 
 .cb:hover {
@@ -46,7 +46,7 @@
 
 .cb:checked::after {
   background-color: #fff;
-  left: 13px;
+  left: 19.5px;
 }
 
 .cb:checked:hover {
