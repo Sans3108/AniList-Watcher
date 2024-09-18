@@ -356,7 +356,7 @@ class ProviderManager {
     }
 
     const url = await provider.handle(data, preferences, preferredTitle).catch(e => {
-      console.log(`AW: ERROR`, e);
+      console.log(`AW: ProviderManager#handle ERROR`, e);
       return null;
     });
 
@@ -401,6 +401,20 @@ function getTheme(): Promise<'light' | 'dark' | null> {
     });
   });
 }
+
+function getMalTitle(data: MediaData, preferences: UserPreferences, fallback: string | null): string | null {
+  const order = preferences.langOrder!.split('');
+
+  const titles = [
+    { lang: 'n', title: data.idMal ? data.malData?.alternative_titles?.ja : null },
+    { lang: 'r', title: data.idMal ? data.malData?.title : null },
+    { lang: 'e', title: data.idMal ? data.malData?.alternative_titles?.en : null }
+  ].map(t => (t.title === '' ? { lang: t.lang, title: null } : t));
+
+  titles.sort((a, b) => order.indexOf(a.lang) - order.indexOf(b.lang));
+
+  return titles.find(t => t.title !== null && t.title !== undefined)?.title || fallback;
+}
 //#endregion
 
 //#region Providers
@@ -422,7 +436,7 @@ class HianimeProvider extends BaseProvider {
     if (!direct) return searchUrl;
 
     const rawHtml = await getRawHtml(searchUrl).catch(e => {
-      console.log(`AW: ERROR`, e);
+      console.log(`AW: HianimeProvider#handle ERROR`, e);
 
       return null;
     });
@@ -451,117 +465,79 @@ class HianimeProvider extends BaseProvider {
 
     endpoint.searchParams.set('keyword', preferredTitle);
 
-    const typeMap: Record<Format, number | null> = {
+    //#region Type
+    const typeMapAnilist: Record<Format, number | null> = {
       TV: 2,
-      TV_SHORT: 2, // non-existent, TV fallback
+      TV_SHORT: null,
       MOVIE: 1,
       SPECIAL: 5,
       OVA: 3,
       ONA: 4,
       MUSIC: 6,
-      MANGA: 2, // non-existent, TV fallback
-      NOVEL: 2, // non-existent, TV fallback
-      ONE_SHOT: null // non-existent, no fallback
+      MANGA: null,
+      NOVEL: null,
+      ONE_SHOT: null
     };
 
-    const type = data.format ? typeMap[data.format] : null;
-
+    const type = data.format ? typeMapAnilist[data.format] : null;
     if (type) endpoint.searchParams.set('type', type.toString());
+    //#endregion
 
-    const statusMap: Record<Status, number | null> = {
+    //#region Status
+    const statusMapAnilist: Record<Status, number | null> = {
       FINISHED: 1,
       RELEASING: 2,
       NOT_YET_RELEASED: 3,
-      CANCELLED: null, // non-existent, no fallback
-      HIATUS: null // non-existent, no fallback
+      CANCELLED: null,
+      HIATUS: null
     };
 
-    const status = data.status ? statusMap[data.status] : null;
-
+    const status = data.status ? statusMapAnilist[data.status] : null;
     if (status) endpoint.searchParams.set('status', status.toString());
+    //#endregion
 
-    const seasonMap: Record<Season, number | null> = {
+    //#region Season
+    const seasonMapAnilist: Record<Season, number | null> = {
       WINTER: 4,
       SPRING: 1,
       SUMMER: 2,
       FALL: 3
     };
 
-    const season = data.season ? seasonMap[data.season] : null;
+    const season = data.season ? seasonMapAnilist[data.season] : null;
 
     if (season) endpoint.searchParams.set('season', season.toString());
+    //#endregion
 
+    //#region Season Year
     if (data.seasonYear) endpoint.searchParams.set('sy', data.seasonYear.toString());
+    //#endregion
 
     if (Boolean(preferences.withGenres)) {
       console.log('AW: Appending genres...');
 
-      const genreMap: Record<Genre, number | null> = {
-        Action: 1,
-        Adventure: 2,
-        Comedy: 4,
-        Drama: 8,
-        Ecchi: 9,
-        Fantasy: 10,
-        Horror: 14,
-        'Mahou Shoujo': null,
-        Mecha: 18,
-        Music: 19,
-        Mystery: null,
-        Psychological: 40,
-        Romance: 22,
-        'Sci-Fi': 24,
-        'Slice of Life': 36,
-        Sports: 30,
-        Supernatural: 37,
-        Thriller: 41
-      };
-
-      // const Hianime_genre_ids = [
-      //   1, // Action
-      //   2, // Adventure
-      //   3, // Cars
-      //   4, // Comedy
-      //   5, // Dementia
-      //   6, // Demons
-      //   8, // Drama
-      //   9, // Ecchi
-      //   10, // Fantasy
-      //   11, // Game
-      //   35, // Harem
-      //   13, // Historical
-      //   14, // Horror
-      //   44, // Isekai
-      //   43, // Josei
-      //   15, // Kids
-      //   16, // Magic
-      //   17, // Martial Arts
-      //   18, // Mecha
-      //   38, // Military
-      //   19, // Music
-      //   7, // Mistery
-      //   20, // Parody
-      //   39, // Police
-      //   40, // Psychological
-      //   22, // Romance
-      //   21, // Samurai
-      //   23, // School
-      //   24, // Sci-Fi
-      //   42, // Seinen
-      //   26, // Shoujo
-      //   25, // Shouko Ai
-      //   27, // Shounen
-      //   28, // Shounen Ai
-      //   36, // Slice of Life
-      //   29, // Space
-      //   30, // Sports
-      //   31, // Super Power
-      //   37, // Supernatural
-      //   41, // Thriller
-      //   32 // Vampire
-      // ];
-
       if (data.genres) {
+        const genreMap: Record<Genre, number | null> = {
+          Action: 1,
+          Adventure: 2,
+          Comedy: 4,
+          Drama: 8,
+          Ecchi: 9,
+          Fantasy: 10,
+          Horror: 14,
+          Mecha: 18,
+          Music: 19,
+          Psychological: 40,
+          Romance: 22,
+          'Sci-Fi': 24,
+          'Slice of Life': 36,
+          Sports: 30,
+          Supernatural: 37,
+          Mystery: null,
+          'Mahou Shoujo': null,
+          Thriller: 41
+        };
+
         const genreIds: string[] = [];
 
         for (const g of data.genres) {
@@ -681,7 +657,7 @@ class AnitakuProvider extends BaseProvider {
     if (!direct) return searchUrl;
 
     const rawHtml = await getRawHtml(searchUrl).catch(e => {
-      console.log(`AW: ERROR`, e);
+      console.log(`AW: AnitakuProvider#handle ERROR`, e);
 
       return null;
     });
@@ -704,17 +680,7 @@ class AnitakuProvider extends BaseProvider {
   }
 
   public getSearchUrl(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): string {
-    const order = preferences.langOrder!.split('');
-
-    const titles = [
-      { lang: 'n', title: data.idMal ? data.malData?.alternative_titles?.ja : null },
-      { lang: 'r', title: data.idMal ? data.malData?.title : null },
-      { lang: 'e', title: data.idMal ? data.malData?.alternative_titles?.en : null }
-    ].map(t => (t.title === '' ? { lang: t.lang, title: null } : t));
-
-    titles.sort((a, b) => order.indexOf(a.lang) - order.indexOf(b.lang));
-
-    const title = titles.find(t => t.title !== null && t.title !== undefined)?.title || preferredTitle;
+    const title = getMalTitle(data, preferences, preferredTitle);
 
     if (!title) throw new Error(`Could not compute title!`);
 
@@ -977,7 +943,6 @@ class AnitakuProvider extends BaseProvider {
   }
 }
 
-// Possibly based on mal data
 class MangafireProvider extends BaseProvider {
   public readonly usesMal = true;
   public readonly type = 'manga';
@@ -996,7 +961,7 @@ class MangafireProvider extends BaseProvider {
     if (!direct) return searchUrl;
 
     const rawHtml = await getRawHtml(searchUrl).catch(e => {
-      console.log(`AW: ERROR`, e);
+      console.log(`AW: MangafireProvider#handle ERROR`, e);
 
       return null;
     });
@@ -1019,20 +984,8 @@ class MangafireProvider extends BaseProvider {
   }
 
   public getSearchUrl(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): string {
-    const order = preferences.langOrder!.split('');
-
-    const titles = [
-      { lang: 'n', title: data.idMal ? data.malData?.alternative_titles?.ja : null },
-      { lang: 'r', title: data.idMal ? data.malData?.title : null },
-      { lang: 'e', title: data.idMal ? data.malData?.alternative_titles?.en : null }
-    ].map(t => (t.title === '' ? { lang: t.lang, title: null } : t));
-
-    titles.sort((a, b) => order.indexOf(a.lang) - order.indexOf(b.lang));
-
-    const title = titles.find(t => t.title !== null && t.title !== undefined)?.title || preferredTitle;
-
+    const title = getMalTitle(data, preferences, preferredTitle);
     if (!title) throw new Error(`Could not compute title!`);
-
     console.log(`AW: ${this.id} title: ${title}`);
 
     const endpoint = new URL('https://mangafire.to/filter');
@@ -1231,253 +1184,24 @@ class MangafireProvider extends BaseProvider {
   }
 }
 
-class MangareaderProvider extends BaseProvider {
-  public readonly usesMal = false;
-  public readonly type = 'manga';
-  public readonly id = 'mangareader';
-  public readonly displayName = 'MangaReader';
+// class MangadexProvider extends BaseProvider {
+//   public readonly usesMal = false;
+//   public readonly type = 'manga';
+//   public readonly id = 'mangadex';
+//   public readonly displayName = 'MangaDex';
 
-  public readonly baseColor = '#6a5488';
+//   public readonly baseColor = '#9b3e26';
 
-  public readonly parsingTarget = null;
+//   public readonly parsingTarget = null;
 
-  public async handle(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): Promise<string> {
-    return 'https://mangareader.to';
-  }
+//   public async handle(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): Promise<string> {
+//     return 'https://mangadex.org';
+//   }
 
-  public getSearchUrl(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): string {
-    const order = preferences.langOrder!.split('');
-
-    const titles = [
-      { lang: 'n', title: data.idMal ? data.malData?.alternative_titles?.ja : null },
-      { lang: 'r', title: data.idMal ? data.malData?.title : null },
-      { lang: 'e', title: data.idMal ? data.malData?.alternative_titles?.en : null }
-    ].map(t => (t.title === '' ? { lang: t.lang, title: null } : t));
-
-    titles.sort((a, b) => order.indexOf(a.lang) - order.indexOf(b.lang));
-
-    const title = titles.find(t => t.title !== null && t.title !== undefined)?.title || preferredTitle;
-
-    if (!title) throw new Error(`Could not compute title!`);
-
-    console.log(`AW: ${this.id} title: ${title}`);
-
-    const endpoint = new URL('https://mangareader.to/filter');
-
-    endpoint.searchParams.set('keyword', title);
-
-    const typeMap: Record<FormatMalManga, number | null> = {
-      unknown: null,
-      manga: 1,
-      novel: 4,
-      one_shot: 2,
-      doujinshi: 3,
-      manhwa: 5,
-      manhua: 6,
-      oel: null
-    };
-
-    const typeMapAnilist: Record<Format, number | null> = {
-      TV: null,
-      TV_SHORT: null,
-      MOVIE: null,
-      SPECIAL: null,
-      OVA: null,
-      ONA: null,
-      MUSIC: null,
-      MANGA: 1,
-      NOVEL: 4,
-      ONE_SHOT: 2
-    };
-
-    const type = data.malData ? typeMap[data.malData.media_type as FormatMalManga] : data.format ? typeMapAnilist[data.format] : null;
-    if (type) endpoint.searchParams.set('type', type.toString());
-
-    const statusMap: Record<StatusMalManga, number> = {
-      finished: 1,
-      currently_publishing: 2,
-      not_yet_published: 5
-    };
-
-    const statusMapAnilist: Record<Status, number | null> = {
-      FINISHED: 1,
-      RELEASING: 2,
-      NOT_YET_RELEASED: 5,
-      CANCELLED: 4,
-      HIATUS: 3
-    };
-
-    const status = data.malData ? statusMap[data.malData.status as StatusMalManga] : data.status ? statusMapAnilist[data.status] : null;
-    if (status) endpoint.searchParams.set('status', status.toString());
-
-    // go from here dumbass
-
-    function pickDecade(year: number): string | null {
-      const decades = ['2000s', '1990s', '1980s', '1970s', '1960s', '1950s', '1940s', '1930s'];
-
-      if (year >= 2004) return year.toString();
-
-      return decades.find(decade => decade.startsWith(`${Math.floor(year / 10) * 10}s`)) || null;
-    }
-
-    if (data.malData && data.malData.start_date) {
-      const startYear = parseInt(data.malData.start_date.slice(0, 4));
-
-      if (!isNaN(startYear)) {
-        const year = pickDecade(startYear);
-        if (year) endpoint.searchParams.set('year[]', year);
-      }
-    } else if (data.seasonYear) {
-      const year = pickDecade(data.seasonYear);
-      if (year) endpoint.searchParams.set('year[]', year);
-    } else if (data.startDate && data.startDate.year) {
-      endpoint.searchParams.set('year[]', data.startDate.year.toString());
-    }
-
-    if (Boolean(preferences.withGenres)) {
-      console.log('AW: Appending genres...');
-
-      const genreMap: Record<keyof typeof GenreMalManga, number | null> = {
-        Action: 1,
-        Adventure: 78,
-        'Avant Garde': 3,
-        'Boys Love': 4,
-        Comedy: 5,
-        Drama: 6,
-        Ecchi: 7,
-        Fantasy: 79,
-        'Girls Love': 9,
-        Gourmet: 10,
-        Harem: 11,
-        Horror: 530,
-        Isekai: 13,
-        Iyashikei: 531,
-        Josei: 15,
-        Kids: 532,
-        'Mahou Shoujo': 533,
-        'Martial Arts': 534,
-        Mecha: 19,
-        Military: 535,
-        Music: 21,
-        Mystery: 22,
-        Parody: 23,
-        Psychological: 536,
-        'Reverse Harem': 25,
-        Romance: 26,
-        School: 73,
-        'Sci-Fi': 28,
-        Seinen: 537,
-        Shoujo: 30,
-        Shounen: 31,
-        'Slice of Life': 538,
-        Space: 33,
-        Sports: 34,
-        'Super Power': 75,
-        Supernatural: 76,
-        Suspense: 37,
-        Vampire: 39,
-        Racing: null,
-        Mythology: null,
-        'Strategy Game': null,
-        Hentai: null,
-        Historical: null,
-        Samurai: null,
-        Detective: null,
-        Crossdressing: null,
-        'Award Winning': null,
-        Workplace: null,
-        Erotica: null,
-        'Adult Cast': null,
-        Anthropomorphic: null,
-        CGDCT: null,
-        Childcare: null,
-        'Combat Sports': null,
-        Delinquents: null,
-        Educational: null,
-        'Gag Humor': null,
-        Gore: null,
-        'High Stakes Game': null,
-        'Idols (Female)': null,
-        'Idols (Male)': null,
-        'Love Polygon': null,
-        'Magical Sex Shift': null,
-        Medical: null,
-        Memoir: null,
-        'Organized Crime': null,
-        'Otaku Culture': null,
-        'Performing Arts': null,
-        Pets: null,
-        Reincarnation: null,
-        'Romantic Subtext': null,
-        Showbiz: null,
-        Survival: null,
-        'Team Sports': null,
-        'Time Travel': null,
-        'Video Game': null,
-        Villainess: null,
-        'Visual Arts': null
-      };
-
-      const genreMapAnilist: Record<Genre, number | null> = {
-        Action: 1,
-        Adventure: 78,
-        Comedy: 5,
-        Drama: 6,
-        Ecchi: 7,
-        Fantasy: 79,
-        Horror: 530,
-        'Mahou Shoujo': 533,
-        Mecha: 19,
-        Music: 21,
-        Mystery: 22,
-        Psychological: 536,
-        Romance: 26,
-        'Sci-Fi': 28,
-        'Slice of Life': 538,
-        Sports: 34,
-        Supernatural: 76,
-        Thriller: null
-      };
-
-      if (data.malData) {
-        for (const g of data.malData.genres) {
-          const genreName = g.name as keyof typeof GenreMalManga;
-
-          const id = genreMap[genreName];
-
-          if (id) endpoint.searchParams.append('genre[]', id.toString());
-        }
-      } else if (data.genres) {
-        for (const g of data.genres) {
-          const id = genreMapAnilist[g];
-
-          if (id) endpoint.searchParams.append('genre[]', id.toString());
-        }
-      }
-    }
-
-    return endpoint.toString();
-  }
-}
-
-class MangadexProvider extends BaseProvider {
-  public readonly usesMal = false;
-  public readonly type = 'manga';
-  public readonly id = 'mangadex';
-  public readonly displayName = 'MangaDex';
-
-  public readonly baseColor = '#9b3e26';
-
-  public readonly parsingTarget = null;
-
-  public async handle(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): Promise<string> {
-    return 'https://mangadex.org';
-  }
-
-  public getSearchUrl(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): string {
-    return 'https://mangadex.org';
-  }
-}
+//   public getSearchUrl(data: MediaData, preferences: UserPreferences, preferredTitle: string | null): string {
+//     return 'https://mangadex.org';
+//   }
+// }
 
 //#endregion
 
@@ -1486,8 +1210,7 @@ const manager = new ProviderManager().register(
   new HianimeProvider(), // anime
   new AnitakuProvider(), // anime
   new MangafireProvider(), // manga, default
-  new MangadexProvider(), // manga
-  new MangareaderProvider() // manga
+  // new MangadexProvider(), // manga
 );
 
 // Runs on extension install, browser version update, extension version update
@@ -1556,7 +1279,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       const title = titles.find(t => t.title !== null && t.title !== undefined)?.title || null;
 
       const mediaUrl = await manager.handle(data, url[3], preferences, title).catch(e => {
-        console.log(`AW: ERROR`, e);
+        console.log(`AW: manager.handle ERROR`, e);
         return null;
       });
 
