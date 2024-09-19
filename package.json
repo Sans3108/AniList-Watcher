@@ -1,6 +1,6 @@
 {
   "name": "anilist-watcher",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "Adds a button on AniList anime and manga pages to quickly open media on popular streaming and reading sites.",
   "scripts": {
     "watch": "nodemon --config config/nodemon.json",

@@ -100,6 +100,24 @@ document.addEventListener('DOMContentLoaded', async function (): Promise<void> {
     window.location.reload();
   });
 
+  // const providerInfo = document.getElementById('providerInfo')!;
+
+  // for (const provider of providers) {
+  //   const div = document.createElement('div');
+  //   div.classList.add('option-item');
+
+  //   const h2 = document.createElement('h2');
+  //   h2.innerText = provider.displayName;
+  //   div.append(h2);
+
+  //   const p = document.createElement('p');
+  //   p.classList.add('text-left');
+  //   p.innerHTML = provider.info;
+  //   div.append(p);
+
+  //   providerInfo.append(div);
+  // }
+
   // Maybe some other time
   // const installed = new URL(window.location.href).searchParams.has('installed');
 

@@ -1,7 +1,7 @@
 {
   "name": "AniList Watcher",
   "description": "Adds a button on AniList anime and manga pages to quickly open media on popular streaming and reading sites.",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "scripts/background/service-worker.js",

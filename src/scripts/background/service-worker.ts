@@ -292,6 +292,7 @@ abstract class BaseProvider {
   public abstract readonly usesMal: boolean;
   public abstract readonly id: string;
   public abstract readonly displayName: string;
+  public abstract readonly info: string;
   public abstract readonly baseColor: string;
   public abstract handle(data: MediaData, preferences: UserPreferences, preferredTitle: string): Promise<string>;
   public abstract getSearchUrl(data: MediaData, preferences: UserPreferences, preferredTitle: string): string;
@@ -423,6 +424,7 @@ class HianimeProvider extends BaseProvider {
   public readonly type = 'anime';
   public readonly id = 'hianime';
   public readonly displayName = 'HiAnime';
+  public readonly info = 'hianime provider Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam aliquam accusantium expedita neque earum repudiandae aspernatur voluptates tempore dolores voluptatem.';
 
   public readonly baseColor = '#bd84a2';
 
@@ -561,6 +563,7 @@ class MiruroProvider extends BaseProvider {
   public readonly type = 'anime';
   public readonly id = 'miruro';
   public readonly displayName = 'Miruro';
+  public readonly info = 'miruro provider Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam aliquam accusantium expedita neque earum repudiandae aspernatur voluptates tempore dolores voluptatem.';
 
   public readonly baseColor = '#535388';
 
@@ -644,6 +647,7 @@ class AnitakuProvider extends BaseProvider {
   public readonly type = 'anime';
   public readonly id = 'anitaku';
   public readonly displayName = 'Anitaku';
+  public readonly info = 'anitaku provider Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam aliquam accusantium expedita neque earum repudiandae aspernatur voluptates tempore dolores voluptatem.';
 
   public readonly baseColor = '#ffc119';
 
@@ -948,6 +952,7 @@ class MangafireProvider extends BaseProvider {
   public readonly type = 'manga';
   public readonly id = 'mangafire';
   public readonly displayName = 'MangaFire';
+  public readonly info = 'mangafire provider Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam aliquam accusantium expedita neque earum repudiandae aspernatur voluptates tempore dolores voluptatem.';
 
   public readonly baseColor = '#225174';
 
@@ -1209,7 +1214,7 @@ const manager = new ProviderManager().register(
   new MiruroProvider(), // anime, default
   new HianimeProvider(), // anime
   new AnitakuProvider(), // anime
-  new MangafireProvider(), // manga, default
+  new MangafireProvider() // manga, default
   // new MangadexProvider(), // manga
 );
 
